@@ -1,5 +1,10 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import HomeScreen2 from './HomeScreen2';
+import HomeScreen3 from './HomeScreen3';
+
+const Tab = createMaterialTopTabNavigator();
 
 export default function HomeScreen1({ navigation } : {navigation: any}) {
     return (
@@ -11,6 +16,13 @@ export default function HomeScreen1({ navigation } : {navigation: any}) {
         />
       </View>
     );
+
+    // return (
+    //   <Tab.Navigator initialRouteName='Home1'>
+    //     <Tab.Screen name='Home1' component={HomeScreen2} />
+    //     <Tab.Screen name='Home2' component={HomeScreen3} />
+    //   </Tab.Navigator>
+    // );
   }
   
   const styles = StyleSheet.create({
