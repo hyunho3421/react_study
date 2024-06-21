@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-
+// import DeviceInfo from 'react-native-device-info';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -13,6 +13,7 @@ import DetailsScreen from './screen/Details';
 const Stack = createNativeStackNavigator();
 
 function CustomTabBar({ navigation } : {navigation: any}) {
+
   return (
     <View style={styles.tabBarContainer}>
       <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Home1')}>
@@ -31,10 +32,13 @@ function CustomTabBar({ navigation } : {navigation: any}) {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Main' screenOptions={{
+      {/* <Stack.Navigator initialRouteName='Main' screenOptions={{
         header: ({ navigation }) => <CustomTabBar navigation={navigation} />,
-      }}>        
-        <Stack.Screen name='Main' component={MainScreen} />
+      }}>         */}
+      <Stack.Navigator initialRouteName='Main'>  
+        <Stack.Screen name='Main' component={MainScreen} options={{
+          header: ({ navigation }) => <CustomTabBar navigation={navigation} />,
+        }} />
         <Stack.Screen name='Home1' component={HomeScreen1} />
         <Stack.Screen name='Home2' component={HomeScreen2} />
         <Stack.Screen name='Home3' component={HomeScreen3} />

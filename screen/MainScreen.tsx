@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useEffect } from 'react';
+import * as Application from 'expo-application';
 
 export default function MainScreen({ navigation } : {navigation: any}) {
   const a = true;
@@ -17,12 +18,7 @@ export default function MainScreen({ navigation } : {navigation: any}) {
 
   return (
     <View style={styles.container}>
-      {/* {a && (navigation.navigate('Home1'))} */}
       <Text style={styles.title}>메인화면</Text>
-      {/* <Button
-          title="다음"
-          onPress={() => navigation.navigate('Home1')}
-        /> */}
     </View>
   );
 }
