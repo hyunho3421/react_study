@@ -2,9 +2,13 @@ import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useEffect } from 'react';
 import * as Application from 'expo-application';
+import * as SQLite from 'expo-sqlite';
+
 
 export default function MainScreen({ navigation } : {navigation: any}) {
   const a = true;
+
+  
   
   function goHome() {
     navigation.navigate('Home1');

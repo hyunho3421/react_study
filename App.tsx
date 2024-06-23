@@ -1,8 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-// import DeviceInfo from 'react-native-device-info';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as Application from 'expo-application';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { checkingAppId } from './component/setDeviceKeyId';
+import { getFirstCertify } from './component/VGServerCertificate';
 
 import MainScreen from './screen/MainScreen';
 import HomeScreen1 from './screen/HomeScreen1';
@@ -12,8 +15,9 @@ import DetailsScreen from './screen/Details';
 
 const Stack = createNativeStackNavigator();
 
-function CustomTabBar({ navigation } : {navigation: any}) {
 
+function CustomTabBar({ navigation } : {navigation: any}) {
+  
   return (
     <View style={styles.tabBarContainer}>
       <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Home1')}>
@@ -30,6 +34,10 @@ function CustomTabBar({ navigation } : {navigation: any}) {
 }
 
 export default function App() {
+
+  //checkingAppId();
+  getFirstCertify();
+
   return (
     <NavigationContainer>
       {/* <Stack.Navigator initialRouteName='Main' screenOptions={{
