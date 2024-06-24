@@ -26,6 +26,8 @@ const getAppId = async () => {
     }
 };
 
+
+
 export const checkingAppId = () => {
     const myAppId = getAppId();
     

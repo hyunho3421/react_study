@@ -4,82 +4,43 @@ import axios from 'axios';
 import * as Device from 'expo-device';
 
 
-const saveAppId = async () => {
+export const saveCertifyId = async (certifyId:string) => {
     try {
-      const appId = Application.getAndroidId();
-
-      console.log("get appId is " + appId);
-
-      await AsyncStorage.setItem('my-appId', appId);
+      await AsyncStorage.setItem('certifyId', JSON.stringify(certifyId));
     } catch (e) {
       console.log("error" + e);
     }
 }
 
-const getAppId = async () => {
+const getCertifyId = async () => {
     try {
-        const value = await AsyncStorage.getItem('my-appId');
-        
-        console.log("my app key is " + value);
+        const certifyId = await AsyncStorage.getItem('certifyId');
 
-        return value;
+        console.log("certifyId is " + certifyId);
+
+        return certifyId;
     } catch (e) {
         console.log("error" + e);
-        return '';
+        return null;
     }
 };
 
-const saveCertifyCode = async () => {
+const saveCertifyCode = async (certifyId:string) => {
     try {
-        const brand = Device.brand;
-        const modelName = Device.modelName;
-        const manufacturer = Device.manufacturer;   
-        const appId = Application.getAndroidId();
-
-        const result = await axios.post(
-            'uri',
-            {
-                
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-
-        console.log("result.data.choices[0].message.content is " + result.data.choices[0].message.content);
-        return result.data.choices[0].message.content;
-        
-        // const appId = Application.getAndroidId();
-        // console.log("get appId is " + appId);
-        // await AsyncStorage.setItem('isVGServerCertify', JSON.stringify(appId));
+        await AsyncStorage.setItem('certifyId', JSON.stringify(certifyId));
       } catch (e) {
         console.log("error" + e);
       }
 }
 
-const getCertifyCode = async () => {
-    try {
-        const certifyCode = await AsyncStorage.getItem('isVGServerCertify');
-        
-        console.log("visionGrammarAppCertify is " + certifyCode);
-
-        return certifyCode;
-    } catch (e) {
-        console.log("error" + e);
-        return '';
-    }
-}
-
-export const getFirstCertify = async () => {
+const getFirstCertify = async () => {
     try {
         const brand = Device.brand;
         const modelName = Device.modelName;
         const manufacturer = Device.manufacturer;   
         const appId = Application.getAndroidId();
 
-        const result = await axios.post(
+        const response = await axios.post(
             'https://vision-427210.as.r.appspot.com/app/first',
             {
                 brand: brand,
@@ -93,6 +54,12 @@ export const getFirstCertify = async () => {
                 },
             }
         );
+
+        if (response.data.responses[0] == null) {
+            return "";
+        }
+
+        return response.data.responses[0];
     } catch (e) {
         console.log("error" + e);
         
@@ -101,10 +68,28 @@ export const getFirstCertify = async () => {
     return '';
 }
 
-export const checkingAppId = () => {
-    const myAppId = getAppId();
-    
-    if (myAppId == null) {
-        saveAppId();
+export const checkingCertifyId = async () => {
+    const certifyId = await getCertifyId();
+
+    if (certifyId == null || certifyId == "") {
+        // 인증아이디 없을떄 - 서버 등록 요청
+        const response = await getFirstCertify();
+
+        if (response.result == "NO_GRANT") {
+            console.log("");
+            return "NO_GRANT";
+        } else if (response.result == "PERMISION_GRANT") {
+            const response_certify = response.certifyId;
+            console.log("PERMISION_GRANT " + response_certify);
+            await saveCertifyCode(response_certify);
+
+            return "EXIST_CERTIFYID";
+        } else {
+            console.log("REGIST_CERTIFYID");
+            return "REGIST_CERTIFYID";
+        }
+    } else {
+        console.log("EXIST_CERTIFYID");
+        return "EXIST_CERTIFYID";
     }
 }

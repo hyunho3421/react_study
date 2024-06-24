@@ -4,7 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Application from 'expo-application';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { checkingCertifyId } from './component/VGServerCertificate';
+import { checkingAppId } from './component/setDeviceKeyId';
+import { getFirstCertify } from './component/VGServerCertificate';
 
 import MainScreen from './screen/MainScreen';
 import HomeScreen1 from './screen/HomeScreen1';
@@ -12,8 +13,8 @@ import HomeScreen2 from './screen/HomeScreen2';
 import HomeScreen3 from './screen/HomeScreen3';
 import DetailsScreen from './screen/Details';
 
-
 const Stack = createNativeStackNavigator();
+
 
 function CustomTabBar({ navigation } : {navigation: any}) {
   
@@ -35,10 +36,7 @@ function CustomTabBar({ navigation } : {navigation: any}) {
 export default function App() {
 
   //checkingAppId();
-  // getFirstCertify();
-  
-  // const result = checkingCertifyId();
-  // console.log("App result " + result);
+  getFirstCertify();
 
   return (
     <NavigationContainer>
